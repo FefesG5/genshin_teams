@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const knex = require("knex");
 const port = process.env.PORT || 3000;
+const knexConfig = require("./knexfile");
 
 const db = knex(knexConfig.development);
 
@@ -27,6 +28,18 @@ app.get("/", (req, res) => {
     region: "Mondstadt",
   });
 });
+
+async function testConnection() {
+  try {
+    const db = knex(knexConfig.development);
+    await db.raw("SELECT 1");
+    console.log("Connection to the database successful.");
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+  }
+}
+
+// -------------------------------- //
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
