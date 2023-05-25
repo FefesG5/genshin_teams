@@ -8,10 +8,10 @@ module.exports = {
     },
   },
   migration: {
-    tableName: "knex_migrations",
-    directory: "./migrations",
+    //tableName: "knex_migrations",
+    directory: "./db/migrations",
   },
   seeds: {
-    directory: "./seeds",
+    directory: "./db/seeds",
   },
 };

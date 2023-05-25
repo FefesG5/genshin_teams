@@ -1,11 +1,12 @@
 require("dotenv").config();
 
 const express = require("express");
-const app = express();
 const knex = require("knex");
-const port = process.env.PORT || 3000;
 const knexConfig = require("./knexfile");
 
+const port = process.env.PORT || 3000;
+
+const app = express();
 const db = knex(knexConfig.development);
 
 // Middleware
