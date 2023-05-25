@@ -1,14 +1,17 @@
 module.exports = {
   development: {
     client: "pg",
-    connection: {
-      user: "postgres",
-      password: "test",
-      database: "genshin_teams",
+    connection: process.env.DATABASE_URL || {
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     },
   },
   migration: {
     tableName: "knex_migrations",
     directory: "./migrations",
+  },
+  seeds: {
+    directory: "./seeds",
   },
 };
