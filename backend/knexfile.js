@@ -9,9 +9,9 @@ module.exports = {
   },
   migrations: {
     //tableName: "knex_migrations",
-    directory: "./backend/db/migrations",
+    directory: "./db/migrations",
   },
   seeds: {
-    directory: "./backend/db/seeds",
+    directory: "./db/seeds",
   },
 };
