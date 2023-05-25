@@ -7,7 +7,7 @@ module.exports = {
       database: process.env.DB_NAME,
     },
   },
-  migration: {
+  migrations: {
     //tableName: "knex_migrations",
     directory: "./backend/db/migrations",
   },
