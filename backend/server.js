@@ -2,11 +2,21 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8000;
-const knex = require("knex");
+const cors = require("cors");
 const Character = require("./models/character");
+const User = require("./models/user");
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// app.use(cors({
+//   methods: ['GET', 'PUT'],
+//   origin: '*'
+// }));
 
 app.get("/", (req, res) => {
-  res.status(200).send("hello");
+  res.status(200).send("This is backend side. Under contruction...");
 });
 
 // -------------------------------- //
@@ -14,6 +24,7 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 
+// GENSHIN CHARACTERS //
 app.get("/characters", async (req, res) => {
   try {
     const characters = await Character.getAllCharacters();
@@ -100,3 +111,62 @@ app.get("/characters/weapon/:weapon", async (req, res) => {
     res.status(500).json({ error: "Failed to retrieve characters" });
   }
 });
+// -------------------------------- //
+
+// USERS
+app.post("/users", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const newUser = await User.createUser(username, email, password);
+    res.json(newUser);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Failed to create user" });
+  }
+});
+
+// Get user by ID
+app.get("/users/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.getUserById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ error: "Failed to retrieve user" });
+  }
+});
+
+// Get user by name
+app.get("/users/name/:name", async (req, res) => {
+  try {
+    const userName = req.params.name;
+    const user = await User.getUserByName(userName);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ error: "Failed to retrieve user" });
+  }
+});
+
+// Get user by email
+app.get("/users/email/:email", async (req, res) => {
+  try {
+    const userEmail = req.params.email;
+    const user = await User.getUserByEmail(userEmail);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ error: "Failed to retrieve user" });
+  }
+});
+// -------------------------------- //
