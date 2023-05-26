@@ -9,7 +9,7 @@ const cors = require("cors");
 const UserController = require("./controllers/UserController");
 const CharacterController = require("./controllers/CharacterController");
 
-const port = 8000; //|| process.env.PORT;
+const port = process.env.PORT || 8000;
 
 // Middleware
 app.use(cors());
