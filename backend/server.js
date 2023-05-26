@@ -1,41 +1,9 @@
 require("dotenv").config();
-
 const express = require("express");
 const app = express();
-const cors = require("cors");
-// const knex = require("knex");
-// const knexConfig = require("./knexfile");
-
-const UserController = require("./controllers/UserController");
-const CharacterController = require("./controllers/CharacterController");
-
 const port = process.env.PORT || 8000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// User routes
-app.get("/characters", CharacterController.getAllCharacters);
-
-// Testing
-// app.get("/", (req, res) => {
-//   res.status(200).send({
-//     id: 53,
-//     name: "Noelle",
-//     element: "Geo",
-//     rarity: 4,
-//     weapon: "Claymore",
-//     description:
-//       "Noelle is a dedicated maid who serves the Knights of Favonius. With her Geo powers and unwavering determination, she strives to protect and heal her allies.",
-//     url: "https://genshin-impact.fandom.com/wiki/Noelle",
-//     image_url:
-//       "https://static.wikia.nocookie.net/gensin-impact/images/e/eb/Noelle_Card.png/revision/latest?cb=20220725205118",
-//     region: "Mondstadt",
-//   });
-// });
-//-------------------------------- //
+const knex = require("knex");
+const Character = require("./models/character");
 
 app.get("/", (req, res) => {
   res.status(200).send("hello");
@@ -44,4 +12,91 @@ app.get("/", (req, res) => {
 // -------------------------------- //
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
+});
+
+app.get("/characters", async (req, res) => {
+  try {
+    const characters = await Character.getAllCharacters();
+    res.json(characters);
+  } catch (error) {
+    console.error("Error retrieving characters:", error);
+    res.status(500).json({ error: "Failed to retrieve characters" });
+  }
+});
+
+app.get("/characters/:id", async (req, res) => {
+  try {
+    const characterId = req.params.id;
+    const character = await Character.getCharacterById(characterId);
+    if (!character) {
+      return res.status(404).json({ error: "Character not found" });
+    }
+    res.json(character);
+  } catch (error) {
+    console.error("Error retrieving character:", error);
+    res.status(500).json({ error: "Failed to retrieve character" });
+  }
+});
+
+app.get("/characters/name/:name", async (req, res) => {
+  try {
+    const characterName = req.params.name;
+    const character = await Character.getCharacterByName(characterName);
+    if (!character) {
+      return res.status(404).json({ error: "Character not found" });
+    }
+    res.json(character);
+  } catch (error) {
+    console.error("Error retrieving character:", error);
+    res.status(500).json({ error: "Failed to retrieve character" });
+  }
+});
+app.get("/characters/element/:element", async (req, res) => {
+  try {
+    const element = req.params.element;
+    const characters = await Character.getCharactersByElement(element);
+    if (characters.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No characters found for the specified element" });
+    }
+    res.json(characters);
+  } catch (error) {
+    console.error("Error retrieving characters:", error);
+    res.status(500).json({ error: "Failed to retrieve characters" });
+  }
+});
+
+// Get characters by region
+app.get("/characters/region/:region", async (req, res) => {
+  try {
+    const region = req.params.region;
+    const characters = await Character.getCharactersByRegion(region);
+    if (characters.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No characters found for the specified region" });
+    }
+    res.json(characters);
+  } catch (error) {
+    console.error("Error retrieving characters:", error);
+    res.status(500).json({ error: "Failed to retrieve characters" });
+  }
+});
+
+// Get characters by weapon
+app.get("/characters/weapon/:weapon", async (req, res) => {
+  try {
+    const weapon = req.params.weapon;
+    const characters = await Character.getCharactersByWeapon(weapon);
+    if (characters.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No characters found for the specified weapon" });
+    }
+    res.json(characters);
+  } catch (error) {
+    console.error("Error retrieving characters:", error);
+    res.status(500).json({ error: "Failed to retrieve characters" });
+  }
 });
