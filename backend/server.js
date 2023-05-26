@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 const cors = require("cors");
 const Character = require("./models/character");
-const User = require("./models/user");
+const User = require("./models/users");
 
 // Middleware
 app.use(express.json());

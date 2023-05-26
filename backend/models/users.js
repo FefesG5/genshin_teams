@@ -3,6 +3,7 @@ const { development: dbConfig } = require("../knexfile");
 const bcrypt = require("bcrypt");
 
 const db = knex(dbConfig);
+console.log("running");
 
 async function createUser(username, email, password) {
   try {
