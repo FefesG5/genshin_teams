@@ -141,10 +141,10 @@ app.get("/users/:id", async (req, res) => {
 });
 
 // Get user by name
-app.get("/users/name/:name", async (req, res) => {
+app.get("/users/username/:username", async (req, res) => {
   try {
-    const userName = req.params.name;
-    const user = await User.getUserByName(userName);
+    const username = req.params.username;
+    const user = await User.getUserByName(username);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
