@@ -1,13 +1,19 @@
-const knex = require("knex");
-const knexConfig = require("./knexfile");
+const { Client } = require("pg");
 
 async function testConnection() {
+  const client = new Client({
+    user: "postgres",
+    database: "genshin_teams",
+    password: "test",
+  });
+
   try {
-    const db = knex(knexConfig.development);
-    await db.raw("SELECT 1");
+    await client.connect();
     console.log("Connection to the database successful.");
   } catch (error) {
     console.error("Error connecting to the database:", error);
+  } finally {
+    await client.end();
   }
 }
 
