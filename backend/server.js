@@ -19,18 +19,29 @@ app.get("/", (req, res) => {
   res.status(200).send("This is backend side. Under contruction...");
 });
 
-app.get("/data", (req, res) => {
-  res.status(200).send({
-    name: "Diluc",
-    element: "Pyro",
-    weapon: "Claymore",
-    constellation: "Noctua",
-    rarity: 5,
-    role: "DPS",
-    description:
-      "The wealthy owner of the Dawn Winery, Diluc is a formidable pyro user known for his relentless combat style and passion for justice.",
-  });
+// -------------------------- //
+// TESTING
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  },
 });
+app.get("/data", (req, res) => {
+  knex("characters")
+    .select()
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+// -------------------------- //
 
 // -------------------------------- //
 app.listen(port, () => {
