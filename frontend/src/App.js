@@ -10,19 +10,20 @@ function App() {
   const [isCharacters, setIsCharactersActive] = React.useState(false);
 
   // Data
-  const [characters, setCharacters] = useState([]);
+  const [charactersImages, setCharactersImages] = useState([]);
+  const [charactersDetails, setCharactersDetails] = useState([]);
   // ------------------------- //
 
   // USE EFFECTS
-
+  // GET main_url images
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://genshin-teams.onrender.com/characters"
+          "https://genshin-teams.onrender.com/main_images/characters"
         );
         const data = await response.json();
-        setCharacters(data);
+        setCharactersImages(data);
       } catch (error) {
         console.log("Error fetching characters:", error);
       }
@@ -30,6 +31,21 @@ function App() {
     fetchData();
   }, []);
 
+  // GET characters details
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://genshin-teams.onrender.com/characters"
+        );
+        const data = await response.json();
+        setCharactersDetails(data);
+      } catch (error) {
+        console.log("Error fetching characters:", error);
+      }
+    };
+    fetchData();
+  }, []);
   // ------------------------- //
 
   // HANDLE FUNCTIONS
@@ -44,7 +60,10 @@ function App() {
       {isHomeLinkActive ? (
         <Landing />
       ) : (
-        <CharactersInfo characters={characters} />
+        <CharactersInfo
+          charactersImages={charactersImages}
+          charactersDetails={charactersDetails}
+        />
       )}
     </div>
   );

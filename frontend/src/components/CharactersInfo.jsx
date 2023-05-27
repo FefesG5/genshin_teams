@@ -1,12 +1,18 @@
 import React from "react";
+
+import ImageCard from "./ImageCard";
 import "../styles/charactersinfo.css";
 
 export default function CharactersInfo(props) {
-  const { characters } = props;
-  console.log(characters);
+  const { charactersImages } = props;
+  console.log(charactersImages);
   return (
     <section>
-      <div></div>
+      <div className="images--container">
+        {charactersImages.map((image, index) => {
+          return <ImageCard main_url={image.main_url} key={index} />;
+        })}
+      </div>
     </section>
   );
 }
