@@ -65,6 +65,29 @@ app.get("/characters", (req, res) => {
     });
 });
 
+app.get("/images/characters", (req, res) => {
+  const { id, name } = req.query;
+
+  let query = knex("characters").select("image");
+
+  if (id) {
+    query = query.where("id", id);
+  }
+
+  if (name) {
+    query = query.where("name", name);
+  }
+
+  query
+    .then((characterImages) => {
+      res.json(characterImages);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
 app.get("/characters", (req, res) => {
   knex("characters")
     .select()
