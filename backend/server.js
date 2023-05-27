@@ -33,47 +33,6 @@ const knex = require("knex")({
 });
 
 app.get("/characters", (req, res) => {
-  knex("characters")
-    .select()
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-app.get("/characters/:name", (req, res) => {
-  const name = req.params.name;
-
-  knex("characters")
-    .select()
-    .where("name", name)
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-
-app.get("/characters/:id", (req, res) => {
-  const id = req.params.id;
-
-  knex("characters")
-    .select()
-    .where("id", id)
-    .then((characters) => {
-      res.json(characters);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-
-app.get("/characters", (req, res) => {
   const { element, weapon, region, rarity } = req.query;
 
   let query = knex("characters").select();
@@ -103,6 +62,48 @@ app.get("/characters", (req, res) => {
       res.sendStatus(500);
     });
 });
+
+app.get("/characters", (req, res) => {
+  knex("characters")
+    .select()
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+app.get("/character/name/:name", (req, res) => {
+  const name = req.params.name;
+
+  knex("characters")
+    .select()
+    .where("name", name)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+app.get("/character/id/:id", (req, res) => {
+  const id = req.params.id;
+
+  knex("characters")
+    .select()
+    .where("id", id)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
 // -------------------------- //
 
 // -------------------------------- //
