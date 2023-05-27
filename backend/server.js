@@ -24,15 +24,14 @@ app.get("/", (req, res) => {
 const knex = require("knex")({
   client: "pg",
   connection: {
-    connectionString:
-      "postgres://genshin_teams:ZXs3IZHJxxeuFygNqXZKODeNoCa4LUlf@dpg-chnfjuhmbg5577l61850-a/genshin_teams",
+    connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false,
     },
   },
 });
 
-app.get("/data", (req, res) => {
+app.get("/characters", (req, res) => {
   knex("characters")
     .select()
     .then((characters) => {
@@ -50,6 +49,7 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 
+// LOCAL HOST
 // GENSHIN CHARACTERS //
 app.get("/characters", async (req, res) => {
   try {
