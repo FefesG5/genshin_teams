@@ -24,12 +24,14 @@ app.get("/", (req, res) => {
 const knex = require("knex")({
   client: "pg",
   connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    connectionString:
+      "postgres://genshin_teams:ZXs3IZHJxxeuFygNqXZKODeNoCa4LUlf@dpg-chnfjuhmbg5577l61850-a/genshin_teams",
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
+
 app.get("/data", (req, res) => {
   knex("characters")
     .select()
