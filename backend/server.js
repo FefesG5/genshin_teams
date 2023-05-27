@@ -19,6 +19,19 @@ app.get("/", (req, res) => {
   res.status(200).send("This is backend side. Under contruction...");
 });
 
+app.get("/data", (req, res) => {
+  res.status(200).send({
+    name: "Diluc",
+    element: "Pyro",
+    weapon: "Claymore",
+    constellation: "Noctua",
+    rarity: 5,
+    role: "DPS",
+    description:
+      "The wealthy owner of the Dawn Winery, Diluc is a formidable pyro user known for his relentless combat style and passion for justice.",
+  });
+});
+
 // -------------------------------- //
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
