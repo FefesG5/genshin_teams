@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
 
 // -------------------------- //
 // TESTING
+// LIVE SERVER LOGIC **NEED TO REFACTOR**
 const knex = require("knex")({
   client: "pg",
   connection: {
@@ -34,6 +35,66 @@ const knex = require("knex")({
 app.get("/characters", (req, res) => {
   knex("characters")
     .select()
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+app.get("/characters/:name", (req, res) => {
+  const name = req.params.name;
+
+  knex("characters")
+    .select()
+    .where("name", name)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+app.get("/characters/:id", (req, res) => {
+  const id = req.params.id;
+
+  knex("characters")
+    .select()
+    .where("id", id)
+    .then((characters) => {
+      res.json(characters);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+app.get("/characters", (req, res) => {
+  const { element, weapon, region, rarity } = req.query;
+
+  let query = knex("characters").select();
+
+  if (element) {
+    query = query.where("element", element);
+  }
+
+  if (weapon) {
+    query = query.where("weapon", weapon);
+  }
+
+  if (region) {
+    query = query.where("region", region);
+  }
+
+  if (rarity) {
+    query = query.where("rarity", rarity);
+  }
+
+  query
     .then((characters) => {
       res.json(characters);
     })
