@@ -65,10 +65,33 @@ app.get("/characters", (req, res) => {
     });
 });
 
-app.get("/images/characters", (req, res) => {
+app.get("/main_images/characters", (req, res) => {
   const { id, name } = req.query;
 
-  let query = knex("characters").select("image");
+  let query = knex("character_images").select("main_url");
+
+  if (id) {
+    query = query.where("id", id);
+  }
+
+  if (name) {
+    query = query.where("name", name);
+  }
+
+  query
+    .then((characterImages) => {
+      res.json(characterImages);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+app.get("/icon_images/characters", (req, res) => {
+  const { id, name } = req.query;
+
+  let query = knex("character_images").select("icon_url");
 
   if (id) {
     query = query.where("id", id);
