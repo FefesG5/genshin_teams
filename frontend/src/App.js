@@ -6,12 +6,12 @@ import CharactersInfo from "./components/CharactersInfo";
 function App() {
   // STATES
   // Buttons
-  const [isHomeLinkActive, setIsHomeLinkActive] = React.useState(true);
-  const [isCharacters, setIsCharactersActive] = React.useState(false);
 
   // Data
   const [charactersImages, setCharactersImages] = useState([]);
   const [charactersDetails, setCharactersDetails] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState("HOME");
   // ------------------------- //
 
   // USE EFFECTS
@@ -50,23 +50,50 @@ function App() {
 
   // HANDLE FUNCTIONS
   function handleHomeActive() {
-    setIsHomeLinkActive((currentBoolean) => !currentBoolean);
-    console.log(isHomeLinkActive);
+    setCurrentPage("HOME");
   }
+
+  function handleLoginActive() {
+    setCurrentPage("LOGIN");
+  }
+
+  function handleCharactersActive() {
+    setCurrentPage("CHARACTERS");
+  }
+  // ------------------------- //
+
   // ------------------------- //
   return (
     <div className="App">
-      <Header handleHomeActive={handleHomeActive} />
-      {isHomeLinkActive ? (
-        <Landing />
-      ) : (
+      <Header
+        handleHomeActive={handleHomeActive}
+        handleLoginActive={handleLoginActive}
+        handleCharactersActive={handleCharactersActive}
+      />
+      {currentPage === "HOME" && <Landing />}
+      {currentPage === "CHARACTERS" && (
         <CharactersInfo
           charactersImages={charactersImages}
           charactersDetails={charactersDetails}
         />
       )}
+      {currentPage === "LOGIN" && "Login"}
     </div>
   );
+  // <div className="App">
+  //   <Header
+  //     handleHomeActive={handleHomeActive}
+  //     handleLoginClick={handleLoginClick}
+  //   />
+  //   {true ? (
+  //     <Landing />
+  //   ) : (
+  //     <CharactersInfo
+  //       charactersImages={charactersImages}
+  //       charactersDetails={charactersDetails}
+  //     />
+  //   )}
+  // </div>
 }
 
 export default App;
