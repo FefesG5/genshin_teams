@@ -9,7 +9,9 @@ const jwt = require("jsonwebtoken");
 const Character = require("./models/character");
 const User = require("./models/users");
 
-const secretKey = process.env.JWT_SECRET_KEY;
+const secretKey = "test";
+// NEED TO BE REFACTOR
+//process.env.JWT_SECRET_KEY;
 
 // Middleware
 app.use(express.json());
