@@ -3,8 +3,7 @@ import Button from "./Button";
 import "../styles/login.css";
 
 export default function Login(props) {
-  const { handleLogin, loginData } = props;
-  console.log(loginData);
+  const { handleLogin, loginData, isUserAuthenticated } = props;
   return (
     <form className="login--form">
       <h3 className="register--title">Login</h3>
@@ -22,7 +21,7 @@ export default function Login(props) {
         name="password"
         onChange={handleLogin}
       />
-      <Button buttonName={"Login"} />
+      <Button buttonName={"Login"} isUserAuthenticated={isUserAuthenticated} />
     </form>
   );
 }

@@ -3,12 +3,14 @@ import Header from "./components/Header";
 import Landing from "./components/Landing";
 import CharactersInfo from "./components/CharactersInfo";
 import Authentication from "./components/Authentication";
+import Team from "./components/Team";
 
 function App() {
   // STATES
 
   // Characters Data
   const [charactersImages, setCharactersImages] = useState([]);
+  const [charactersIcons, setCharactersIcons] = useState([]);
   const [charactersDetails, setCharactersDetails] = useState([]);
 
   // User Data
@@ -26,6 +28,8 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState("HOME");
 
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+
   // ------------------------- //
 
   // USE EFFECTS
@@ -38,6 +42,22 @@ function App() {
         );
         const data = await response.json();
         setCharactersImages(data);
+      } catch (error) {
+        console.log("Error fetching characters:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // GET icon_url images
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://genshin-teams.onrender.com/icon_images/characters"
+        );
+        const data = await response.json();
+        setCharactersIcons(data);
       } catch (error) {
         console.log("Error fetching characters:", error);
       }
@@ -75,6 +95,10 @@ function App() {
     setCurrentPage("CHARACTERS");
   }
 
+  function handleTeamActive() {
+    setCurrentPage("TEAM");
+  }
+
   function handleRegistration(event) {
     const { name, value, type, checked } = event.target;
     setRegistrationData((previousRegistrationData) => ({
@@ -92,38 +116,41 @@ function App() {
   }
 
   // Simple Login State Switch
-  function handleSubmitLogin(event) {
-    event.preventDefault();
-    try {
-      fetch("https://genshin-teams.onrender.com/login", {
-        method: "POST",
-        header: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: loginData.username,
-          password: loginData.password,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log("Login successful");
-
-            setLoginData({
-              username: "",
-              password: "",
-            });
-          } else {
-            console.error("Login failed");
-          }
-        })
-        .catch((error) => {
-          console.error("Error in server: ", error);
-        });
-    } catch (error) {
-      console.error("Error in the client: ", error);
-    }
-  }
+  // const handleSubmitLogin = async (event) => {
+  //   event.preventDefault();
+  //   if (
+  //     registrationData.username === "" ||
+  //     registrationData.password.length < 4 ||
+  //     registrationData.email === ""
+  //   ) {
+  //     console.log("Invalid Input(s)");
+  //     return;
+  //   }
+  //   try {
+  //     const response = await fetch("https://genshin-teams.onrender.com/login", {
+  //       method: "POST",
+  //       header: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         username: loginData.username,
+  //         password: loginData.password,
+  //       }),
+  //     });
+  //     if (response.ok) {
+  //       console.log("Login successful");
+  //       setIsUserAuthenticated(true);
+  //       setLoginData({
+  //         username: "",
+  //         password: "",
+  //       });
+  //     } else {
+  //       console.error("Login failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in the client: ", error);
+  //   }
+  // };
 
   const handleSubmitRegistration = async (event) => {
     event.preventDefault();
@@ -185,11 +212,18 @@ function App() {
         handleHomeActive={handleHomeActive}
         handleLoginActive={handleLoginActive}
         handleCharactersActive={handleCharactersActive}
+        handleTeamActive={handleTeamActive}
       />
       {currentPage === "HOME" && <Landing />}
       {currentPage === "CHARACTERS" && (
         <CharactersInfo
           charactersImages={charactersImages}
+          charactersDetails={charactersDetails}
+        />
+      )}
+      {currentPage === "TEAM" && (
+        <Team
+          charactersIcons={charactersIcons}
           charactersDetails={charactersDetails}
         />
       )}
@@ -200,6 +234,7 @@ function App() {
           handleSubmitRegistration={handleSubmitRegistration}
           handleLogin={handleLogin}
           loginData={loginData}
+          isUserAuthenticated={isUserAuthenticated}
         />
       )}
     </div>

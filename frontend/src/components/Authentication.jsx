@@ -11,8 +11,9 @@ export default function Authentication(props) {
     handleSubmitRegistration,
     loginData,
     handleLogin,
+    isUserAuthenticated,
   } = props;
-  console.log(registrationData);
+
   return (
     <>
       <form className="registeration--form" onSubmit={handleSubmitRegistration}>
@@ -51,7 +52,11 @@ export default function Authentication(props) {
         />
         <Button buttonName={"Register"} />
       </form>
-      <Login loginData={loginData} handleLogin={handleLogin} />
+      <Login
+        loginData={loginData}
+        handleLogin={handleLogin}
+        isUserAuthenticated={isUserAuthenticated}
+      />
     </>
   );
 }
