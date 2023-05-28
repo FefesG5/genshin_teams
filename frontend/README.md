@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+Genshin Team App
+The Genshin Team App is a powerful tool designed to assist players of the popular game Genshin Impact in building optimal teams. With a comprehensive list of all playable characters in the game, this app allows you to select your owned characters and create customized teams of up to four members. Whether you're a beginner or an experienced player, the Genshin Team App can help you maximize your team's potential and enhance your gaming experience.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Features
+Character Selection: The app provides a list of all playable characters in Genshin Impact, allowing you to easily browse and select the characters you own.
 
-## Available Scripts
+Team Building: Once you've chosen your characters, you can create teams by dragging and dropping them into the team slots. The app enforces the maximum limit of four members per team.
 
-In the project directory, you can run:
+Team Optimization: The Genshin Team App offers suggestions and insights to help you optimize your team composition. It considers character synergies, elemental reactions, and other factors to ensure your team is well-balanced and effective.
 
-### `npm start`
+Team Sharing: You can save and share your teams with other Genshin Impact players. This feature is particularly useful for seeking advice, collaborating with friends, or showcasing your team setups.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Tech Stack
+The Genshin Team App is built using the following technologies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+PostgreSQL: A robust and scalable open-source relational database management system that stores character and team data.
 
-### `npm test`
+Express: A fast and minimalist web application framework for Node.js that enables building the app's backend API.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Node.js: A powerful JavaScript runtime environment that allows running server-side code and powering the app's backend logic.
 
-### `npm run build`
+React: A popular JavaScript library for building user interfaces, utilized to create the app's interactive and responsive frontend.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Installation
+To run the Genshin Team App locally, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Clone the repository from GitHub:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+bash
+Copy code
+git clone https://github.com/FefesG5/genshin_teams.git
+Navigate to the project directory:
 
-### `npm run eject`
+bash
+cd backend
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+cd frontend
+npm install
+Set up the PostgreSQL database:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Ensure PostgreSQL is installed and running on your machine.
+Create a new database for the app.
+Database name should be: genshin_team
+Configure the backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Rename the .env.example file in the backend directory to .env.
+Open the .env file and update the database connection details to match your PostgreSQL configuration.
+Start the backend server:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+bash
+Copy code
+cd backend
+npm start
+Start the backend development server:
 
-## Learn More
+bash
+Copy code
+cd frontend
+npm run start
+Access the app in your browser at http://localhost:3000.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Future Enhancements
+The Genshin Team App is an ongoing project, and the following features are planned for future updates:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+User Authentication: Implement user accounts to allow users to save and retrieve their teams across multiple devices.
 
-### Code Splitting
+Team Analysis: Provide in-depth team performance analysis, including damage output, elemental reaction strengths, and elemental resonance bonuses.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Contributing
+Contributions to the Genshin Team App are welcome! If you'd like to contribute, please follow these steps:
 
-### Analyzing the Bundle Size
+Fork the repository and clone it to your local machine.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Create a new branch for your feature or bug fix:
 
-### Making a Progressive Web App
+License
+The Genshin Team App is open-source software licensed under the MIT License.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Contact
+For any inquiries, feedback, or support requests, please contact the project maintainer:
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+GitHub: FefesG5
+Feel free to reach out if you have any questions or suggestions related to the Genshin Team App. We appreciate your interest and support!
