@@ -15,7 +15,7 @@ export default function Header(props) {
         <li onClick={handleHomeActive}>HOME</li>
         <li onClick={handleCharactersActive}>CHARACTERS</li>
       </ul>
-      <Button handleLoginActive={handleLoginActive} />
+      <Button handleLoginActive={handleLoginActive} buttonName={"Login"} />
     </header>
   );
 }

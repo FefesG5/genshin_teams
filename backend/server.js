@@ -151,8 +151,86 @@ app.get("/character/id/:id", (req, res) => {
       res.sendStatus(500);
     });
 });
-
 // -------------------------- //
+// USER LOGIC ONLINE **NEED TO REFACTOR**
+// GET user by ID
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+
+  knex("users")
+    .select()
+    .where("id", id)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+// GET user by username
+app.get("/users/username/:username", (req, res) => {
+  const username = req.params.username;
+
+  knex("users")
+    .select()
+    .where("username", username)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
+
+// POST request to create a new user
+app.post("/users", (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Hash the password using bcrypt
+  bcrypt.hash(password, 10, (error, hashedPassword) => {
+    if (error) {
+      console.error("Error hashing password:", error);
+      return res.sendStatus(500);
+    }
+
+    // Create a new user object with the hashed password
+    const newUser = {
+      username,
+      email,
+      password: hashedPassword,
+    };
+
+    // Insert the new user into the database
+    knex("users")
+      .insert(newUser)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        console.error("Error creating new user:", error);
+        res.sendStatus(500);
+      });
+  });
+});
+
+// DELETE user by ID
+app.delete("/users/:id", (req, res) => {
+  const id = req.params.id;
+
+  knex("users")
+    .where("id", id)
+    .del()
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500);
+    });
+});
 
 // -------------------------------- //
 app.listen(port, () => {
@@ -160,7 +238,7 @@ app.listen(port, () => {
 });
 
 // LOCAL HOST
-// GENSHIN CHARACTERS //
+// GENSHIN CHARACTERS CRAP CODE BELOW//
 app.get("/characters", async (req, res) => {
   try {
     const characters = await Character.getAllCharacters();
@@ -247,87 +325,6 @@ app.get("/characters/weapon/:weapon", async (req, res) => {
     res.status(500).json({ error: "Failed to retrieve characters" });
   }
 });
-// -------------------------------- //
-// USER LOGIC ONLINE **NEED TO REFACTOR**
-// GET user by ID
-app.get("/users/:id", (req, res) => {
-  const id = req.params.id;
-
-  knex("users")
-    .select()
-    .where("id", id)
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-
-// GET user by username
-app.get("/users/username/:username", (req, res) => {
-  const username = req.params.username;
-
-  knex("users")
-    .select()
-    .where("username", username)
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-
-// POST request to create a new user
-app.post("/users", (req, res) => {
-  const { username, email, password } = req.body;
-
-  // Hash the password using bcrypt
-  bcrypt.hash(password, 10, (error, hashedPassword) => {
-    if (error) {
-      console.error("Error hashing password:", error);
-      return res.sendStatus(500);
-    }
-
-    // Create a new user object with the hashed password
-    const newUser = {
-      username,
-      email,
-      password: hashedPassword,
-    };
-
-    // Insert the new user into the database
-    knex("users")
-      .insert(newUser)
-      .then(() => {
-        res.sendStatus(201);
-      })
-      .catch((error) => {
-        console.error("Error creating new user:", error);
-        res.sendStatus(500);
-      });
-  });
-});
-
-// DELETE user by ID
-app.delete("/users/:id", (req, res) => {
-  const id = req.params.id;
-
-  knex("users")
-    .where("id", id)
-    .del()
-    .then(() => {
-      res.sendStatus(204);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
-});
-
 // -------------------------------- //
 
 // USERS
