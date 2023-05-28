@@ -240,13 +240,17 @@ app.post("/login", async (req, res) => {
       .first();
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid username or password" });
+      return res
+        .status(401)
+        .json({ error: "Invalid username or password - 1" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid username or password" });
+      return res
+        .status(401)
+        .json({ error: "Invalid username or password - 2" });
     }
 
     const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: "1h" });
