@@ -91,6 +91,40 @@ function App() {
     }));
   }
 
+  // Simple Login State Switch
+  function handleSubmitLogin(event) {
+    event.preventDefault();
+    try {
+      fetch("https://genshin-teams.onrender.com/login", {
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: loginData.username,
+          password: loginData.password,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Login successful");
+
+            setLoginData({
+              username: "",
+              password: "",
+            });
+          } else {
+            console.error("Login failed");
+          }
+        })
+        .catch((error) => {
+          console.error("Error in server: ", error);
+        });
+    } catch (error) {
+      console.error("Error in the client: ", error);
+    }
+  }
+
   const handleSubmitRegistration = async (event) => {
     event.preventDefault();
     if (

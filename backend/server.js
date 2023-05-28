@@ -200,6 +200,36 @@ app.get("/users/username/:username", (req, res) => {
     });
 });
 
+// POST TO GET AUTHENTICATION
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  knex("users")
+    .select("password")
+    .where("username", username)
+    .first()
+    .then((user) => {
+      if (user) {
+        bcrypt.compare(password, user.password, (error, result) => {
+          if (error) {
+            console.error("Error: ", error);
+            res.status(500).send("Internal Server Error 1");
+          } else if (result) {
+            res.status(200).send("Login sucessful");
+          } else {
+            res.status(401).send("Incorrect password");
+          }
+        });
+      } else {
+        res.status(401).send("Unauthorized");
+      }
+    })
+    .catch((error) => {
+      console.error("Error: ", error);
+      res.status(500).send("Internal Server Error 2");
+    });
+});
+
 // POST request to create a new user
 app.post("/users", (req, res) => {
   const { username, email, password } = req.body;
