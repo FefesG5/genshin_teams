@@ -6,7 +6,6 @@ import Authentication from "./components/Authentication";
 
 function App() {
   // STATES
-  // Buttons
 
   // Characters Data
   const [charactersImages, setCharactersImages] = useState([]);
@@ -20,7 +19,13 @@ function App() {
     confirmPassword: "",
   });
 
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
   const [currentPage, setCurrentPage] = useState("HOME");
+
   // ------------------------- //
 
   // USE EFFECTS
@@ -78,11 +83,19 @@ function App() {
     }));
   }
 
+  function handleLogin(event) {
+    const { name, value } = event.target;
+    setLoginData((previousLoginData) => ({
+      ...previousLoginData,
+      [name]: value,
+    }));
+  }
+
   const handleSubmitRegistration = async (event) => {
     event.preventDefault();
     if (
       registrationData.username === "" ||
-      registrationData.password > 4 ||
+      registrationData.password.length < 4 ||
       registrationData.email === ""
     ) {
       console.log("Invalid Input(s)");
@@ -132,8 +145,6 @@ function App() {
     }
   };
   // ------------------------- //
-
-  // ------------------------- //
   return (
     <div className="App">
       <Header
@@ -153,6 +164,8 @@ function App() {
           handleRegistration={handleRegistration}
           registrationData={registrationData}
           handleSubmitRegistration={handleSubmitRegistration}
+          handleLogin={handleLogin}
+          loginData={loginData}
         />
       )}
     </div>

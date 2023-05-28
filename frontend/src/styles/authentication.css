@@ -1,4 +1,8 @@
-.login--form {
+/* .authentication--form {
+  display: flex;
+}
+
+.registeration--form {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -16,4 +20,4 @@
   margin: 3px;
   border: 1px solid black;
   border-radius: 3px;
-}
+} */

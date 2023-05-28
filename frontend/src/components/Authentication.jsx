@@ -1,15 +1,21 @@
 import React from "react";
 
 import Button from "./Button";
+import Login from "./Login";
 import "../styles/authentication.css";
 
 export default function Authentication(props) {
-  const { registrationData, handleRegistration, handleSubmitRegistration } =
-    props;
+  const {
+    registrationData,
+    handleRegistration,
+    handleSubmitRegistration,
+    loginData,
+    handleLogin,
+  } = props;
   console.log(registrationData);
   return (
     <>
-      <form className="login--form" onSubmit={handleSubmitRegistration}>
+      <form className="registeration--form" onSubmit={handleSubmitRegistration}>
         <h3 className="register--title">Register</h3>
         <input
           type="text"
@@ -45,6 +51,7 @@ export default function Authentication(props) {
         />
         <Button buttonName={"Register"} />
       </form>
+      <Login loginData={loginData} handleLogin={handleLogin} />
     </>
   );
 }
