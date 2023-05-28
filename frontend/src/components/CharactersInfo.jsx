@@ -16,16 +16,16 @@ export default function CharactersInfo(props) {
       <div className="images--container">
         {combinedArray.map((character, index) => {
           return (
-            <>
+            <div className="card--container">
               <h3 key={character.name}>{character.name}</h3>
               <ImageCard
                 main_url={character.image}
                 key={index + 1}
                 alt={character.name}
               />
-              <h5>description:</h5> <p>{character.description}</p>
-              <h5>element:</h5> <p>{character.element}</p>
-            </>
+              <h5>Description:</h5> <p>{character.description}</p>
+              <h5>Element:</h5> <p>{character.element}</p>
+            </div>
           );
         })}
       </div>
