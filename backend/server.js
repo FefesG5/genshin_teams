@@ -4,9 +4,12 @@ const app = express();
 const port = process.env.PORT || 8000;
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const Character = require("./models/character");
 const User = require("./models/users");
+
+const secretKey = process.env.JWT_SECRET_KEY;
 
 // Middleware
 app.use(express.json());
@@ -26,12 +29,22 @@ app.get("/", (req, res) => {
 // LIVE SERVER LOGIC **NEED TO REFACTOR**
 const knex = require("knex")({
   client: "pg",
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
+  connection:
+    // FOR LOCAL CONNECTIONS
+    // {
+    //   user: process.env.DB_USER,
+    //   database: process.env.DB_NAME,
+    //   port: process.env.DB_PORT,
+    //   password: process.env.DB_PASSWORD,
+    // },
+
+    // FOR ONLINE CONNECTIONS
+    {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
-  },
 });
 
 app.get("/characters", (req, res) => {
@@ -214,6 +227,35 @@ app.post("/users", (req, res) => {
         res.sendStatus(500);
       });
   });
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Query database for user details
+    const user = await knex("users")
+      .select("id", "username", "password")
+      .where({ username })
+      .first();
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid username or password" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid username or password" });
+    }
+
+    const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: "1h" });
+
+    res.json({ token });
+  } catch (error) {
+    console.error("Authentication error: ", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 // DELETE user by ID
